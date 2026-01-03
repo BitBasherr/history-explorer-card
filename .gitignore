@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+yarn-error.log
+npm-debug.log*
+package-lock.json
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Build artifacts
+dist/
+build/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# Logs
+logs/
+*.log
