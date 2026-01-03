@@ -27,12 +27,15 @@ if (!global.customElements) {
   };
 }
 
-// Mock console methods to reduce noise in tests
-global.console = {
-  ...console,
-  log: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-};
+// Selectively mock console methods to reduce noise in tests
+// Set environment variable DEBUG=true to see console output during test development
+const shouldMockConsole = !process.env.DEBUG;
+
+if (shouldMockConsole) {
+  global.console = {
+    ...console,
+    log: jest.fn(),
+    debug: jest.fn(),
+    info: jest.fn(),
+  };
+}

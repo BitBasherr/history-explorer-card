@@ -13,6 +13,9 @@ yarn test:watch
 
 # Run tests with coverage report
 yarn test:coverage
+
+# Run tests with console output (for debugging)
+DEBUG=true yarn test
 ```
 
 ## Test Structure

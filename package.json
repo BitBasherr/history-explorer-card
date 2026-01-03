@@ -12,7 +12,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "echo 'Linting not configured yet'",
     "postversion": "sed -i \"s/^const Version = '[^']*';/const Version = '$npm_package_version';/\" src/history-explorer-card.js && yarn build && git add history-explorer-card.js src/history-explorer-card.js"
   },
   "devDependencies": {
