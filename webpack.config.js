@@ -13,4 +13,14 @@ module.exports = {
       extractComments: false,
     })],
   },
+  // Ignore moment.js locale dynamic require warning
+  ignoreWarnings: [
+    {
+      module: /moment\.js/,
+      message: /Can't resolve '\.\/locale'/,
+    },
+  ],
+  performance: {
+    hints: false, // Disable asset size warnings
+  },
 };
