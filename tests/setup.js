@@ -27,6 +27,31 @@ if (!global.customElements) {
   };
 }
 
+// Mock moment.js - create a recursive mock that returns itself for chaining
+const createMockMoment = (input) => {
+  const mockMoment = {
+    format: jest.fn((fmt) => {
+      // Return different formats based on format string
+      if (fmt === 'YYYY-MM-DDTHH:mm:ssZ') {
+        return '2024-01-15T12:30:45+00:00';
+      } else if (fmt === 'YYYY-MM-DD_HH:mm:ss') {
+        return '2024-01-15_12:30:45';
+      } else if (fmt === 'YYYY-MM-DD HH:mm:ss') {
+        return '2024-01-15 12:30:45';
+      }
+      return '2024-01-15_12:30:45';
+    }),
+    subtract: jest.fn(function() { return this; }),
+    add: jest.fn(function() { return this; }),
+  };
+  return mockMoment;
+};
+
+global.window.HXLocal_moment = jest.fn(createMockMoment);
+
+// Mock saveAs from FileSaver.js
+global.window.saveAs = jest.fn();
+
 // Selectively mock console methods to reduce noise in tests
 // Set environment variable DEBUG=true to see console output during test development
 const shouldMockConsole = !process.env.DEBUG;
