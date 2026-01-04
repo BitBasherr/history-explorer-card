@@ -1721,8 +1721,8 @@ export class HistoryCardState {
 
             // Prepare db retrieval request for all visible entities
             let n = 0;
-            let t0 = this.loader.startTime.replace('+', '%2b');
-            let t1 = this.loader.endTime.replace('+', '%2b');
+            let t0 = this.loader.startTime.replaceAll('+', '%2b');
+            let t1 = this.loader.endTime.replaceAll('+', '%2b');
             let l = [];
             for( let g of this.graphs ) {
                 for( let e of g.entities ) {
