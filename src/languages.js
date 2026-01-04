@@ -491,7 +491,7 @@ let language = 'en';
 export function setLanguage(l)
 {
     language = 'en';
-    let lang = l.replace('-', '_').split('_');
+    let lang = l.replaceAll('-', '_').split('_');
     if( lang && lang.length > 0 && languages[lang[0]] ) language = lang[0];
 }
 
@@ -500,7 +500,7 @@ export function i18n(t, a0)
     let v = t.split('.').reduce((o,i) => o[i], languages[language]);
     if( v === undefined ) 
         v = t.split('.').reduce((o,i) => o[i], languages['en']);
-    if( v && a0 ) v = v.replace('%1', a0);
+    if( v && a0 ) v = v.replaceAll('%1', a0);
     return v;
 }
 

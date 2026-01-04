@@ -108,8 +108,8 @@ export class HistoryCSVExporter {
 
         let n = 0;
 
-        let t0 = cardstate.startTime.replace('+', '%2b');
-        let t1 = cardstate.endTime.replace('+', '%2b');
+        let t0 = cardstate.startTime.replaceAll('+', '%2b');
+        let t1 = cardstate.endTime.replaceAll('+', '%2b');
         let l = [];
         for( let g of cardstate.graphs ) {
             for( let e of g.entities ) {
@@ -206,8 +206,8 @@ export class StatisticsCSVExporter {
 
         let n = 0;
 
-        let t0 = cardstate.startTime.replace('+', '%2b');
-        let t1 = cardstate.endTime.replace('+', '%2b');
+        let t0 = cardstate.startTime.replaceAll('+', '%2b');
+        let t1 = cardstate.endTime.replaceAll('+', '%2b');
         let l = [];
         for( let g of cardstate.graphs ) {
             for( let e of g.entities ) {
