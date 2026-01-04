@@ -66,18 +66,18 @@ jobs:
       
       - name: Verify build output
         run: |
-          if [ ! -f "history-explorer-card.js" ]; then
+          if [ ! -f "dist/history-explorer-card.js" ]; then
             echo "Build output file not found!"
             exit 1
           fi
           echo "Build successful! Output file size:"
-          ls -lh history-explorer-card.js
+          ls -lh dist/history-explorer-card.js
       
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: history-explorer-card
-          path: history-explorer-card.js
+          path: dist/history-explorer-card.js
           retention-days: 7
 
   compatibility-check:
