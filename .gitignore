@@ -10,7 +10,6 @@ coverage/
 *.lcov
 
 # Build artifacts
-dist/
 build/
 
 # IDE and editor files
