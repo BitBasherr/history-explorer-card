@@ -407,12 +407,94 @@ export class HistoryCardState {
         this.setTimeRange(event.target.value, true);
     }
 
+    showDateRangeDialog(callback)
+    {
+        // Create a modal dialog for date range selection
+        const dialog = document.createElement('div');
+        dialog.id = 'export-date-range-dialog';
+        dialog.style.cssText = 'position:fixed;display:flex;align-items:center;justify-content:center;width:100%;height:100%;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.5);z-index:1000;';
+        
+        // Format current times for inputs (datetime-local requires YYYY-MM-DDTHH:MM format)
+        const formatDateTimeLocal = (dateStr) => {
+            return moment(dateStr).format('YYYY-MM-DDTHH:mm');
+        };
+        
+        const startValue = formatDateTimeLocal(this.startTime);
+        const endValue = formatDateTimeLocal(this.endTime);
+        
+        dialog.innerHTML = `
+            <div style="background-color:var(--card-background-color);padding:20px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.3);max-width:400px;width:90%;">
+                <h3 style="margin-top:0;color:var(--primary-text-color);">Select Export Date Range</h3>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block;margin-bottom:5px;color:var(--primary-text-color);">Start Date & Time:</label>
+                    <input type="datetime-local" id="export-start-time" value="${startValue}" 
+                           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;"/>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block;margin-bottom:5px;color:var(--primary-text-color);">End Date & Time:</label>
+                    <input type="datetime-local" id="export-end-time" value="${endValue}"
+                           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;"/>
+                </div>
+                <div style="display:flex;justify-content:flex-end;gap:10px;">
+                    <button id="export-cancel-btn" 
+                            style="padding:8px 16px;border:1px solid #ccc;border-radius:4px;background-color:#f0f0f0;cursor:pointer;">
+                        Cancel
+                    </button>
+                    <button id="export-confirm-btn"
+                            style="padding:8px 16px;border:none;border-radius:4px;background-color:var(--primary-color);color:white;cursor:pointer;">
+                        Export
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(dialog);
+        
+        // Handle cancel
+        dialog.querySelector('#export-cancel-btn').addEventListener('click', () => {
+            document.body.removeChild(dialog);
+        });
+        
+        // Handle confirm
+        dialog.querySelector('#export-confirm-btn').addEventListener('click', () => {
+            const startInput = dialog.querySelector('#export-start-time').value;
+            const endInput = dialog.querySelector('#export-end-time').value;
+            
+            // Validate inputs
+            if (!startInput || !endInput) {
+                alert('Please select both start and end date/time');
+                return;
+            }
+            
+            const startMoment = moment(startInput);
+            const endMoment = moment(endInput);
+            
+            if (endMoment.isBefore(startMoment)) {
+                alert('End date/time must be after start date/time');
+                return;
+            }
+            
+            document.body.removeChild(dialog);
+            
+            // Create a temporary state object with custom date range
+            const exportState = {
+                ...this,
+                startTime: startMoment.format('YYYY-MM-DDTHH:mm:ss'),
+                endTime: endMoment.format('YYYY-MM-DDTHH:mm:ss')
+            };
+            
+            callback(exportState);
+        });
+    }
+
     exportFile()
     {
         this.menuSetVisibility(0, false);
         this.menuSetVisibility(1, false);
 
-        this.csvExporter.exportFile(this);
+        this.showDateRangeDialog((exportState) => {
+            this.csvExporter.exportFile(exportState);
+        });
     }
 
     exportStatistics()
@@ -420,7 +502,9 @@ export class HistoryCardState {
         this.menuSetVisibility(0, false);
         this.menuSetVisibility(1, false);
 
-        this.statsExporter.exportFile(this);
+        this.showDateRangeDialog((exportState) => {
+            this.statsExporter.exportFile(exportState);
+        });
     }
 
     toggleInfoPanel()
