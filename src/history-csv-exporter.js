@@ -3,6 +3,10 @@
 // Helper functions
 // --------------------------------------------------------------------------------------
 
+// Get references to globally available libraries
+const moment = window.HXLocal_moment;
+const saveAs = window.saveAs;
+
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n-0); }
 
 function localizeNumber(state, nf) 
