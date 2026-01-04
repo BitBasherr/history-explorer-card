@@ -6,7 +6,7 @@ This repository is a **Lovelace custom card** (also called a "Dashboard card" or
 
 ### Key Differences
 
-| Feature | Lovelace Plugin (THIS REPO) | Integration (PillAssistant/Custom-Device-Notifier) |
+| Feature | Lovelace Plugin (THIS REPO) | Integration (e.g., PillAssistant) |
 |---------|----------------------------|---------------------------------------------------|
 | **Location** | `dist/history-explorer-card.js` | `custom_components/<domain>/` |
 | **Language** | JavaScript (frontend) | Python (backend) |
@@ -36,7 +36,7 @@ history-explorer-card/
 }
 ```
 
-## HACS Requirements for Lovelace Plugins (2025)
+## Current HACS Requirements for Lovelace Plugins
 
 According to [official HACS documentation](https://hacs.xyz/docs/publish/plugin/):
 
