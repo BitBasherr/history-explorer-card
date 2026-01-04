@@ -416,7 +416,7 @@ export class HistoryCardState {
         
         // Format current times for inputs (datetime-local requires YYYY-MM-DDTHH:MM format)
         const formatDateTimeLocal = (dateStr) => {
-            return moment(dateStr).format('YYYY-MM-DDTHH:mm');
+            return window.HXLocal_moment(dateStr).format('YYYY-MM-DDTHH:mm');
         };
         
         const startValue = formatDateTimeLocal(this.startTime);
@@ -466,8 +466,9 @@ export class HistoryCardState {
                 return;
             }
             
-            const startMoment = moment(startInput);
-            const endMoment = moment(endInput);
+            const momentLib = window.HXLocal_moment;
+            const startMoment = momentLib(startInput);
+            const endMoment = momentLib(endInput);
             
             if (endMoment.isBefore(startMoment)) {
                 alert('End date/time must be after start date/time');

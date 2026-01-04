@@ -9,9 +9,13 @@ beforeAll(() => {
   const originalMoment = global.window.HXLocal_moment;
   global.window.HXLocal_moment = jest.fn((input) => {
     const mockMoment = originalMoment(input);
+    // Store the input for comparison
+    mockMoment._input = input;
     mockMoment.isBefore = jest.fn((other) => {
-      // Simple mock: just compare the input strings
-      return input < (other.format ? other.format() : other);
+      // Parse dates properly for comparison
+      const thisDate = new Date(mockMoment._input);
+      const otherDate = other._input ? new Date(other._input) : new Date(other);
+      return thisDate < otherDate;
     });
     return mockMoment;
   });

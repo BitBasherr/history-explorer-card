@@ -15,7 +15,7 @@ function localizeNumber(state, nf)
     return nf.format(+state);
 }
 
-function escapeSeperator(sep, state)
+function escapeSeparator(sep, state)
 {
     if( state !== undefined && state !== null && String(state).indexOf(sep) >= 0 ) 
         return `"${state}"`;
@@ -75,11 +75,11 @@ export class HistoryCSVExporter {
             for( let e of r ) {
                 const t = moment(e.lu * 1000).format(this.timeFormat);
                 let state = localizeNumber(e.s, nf);
-                let v = t + this.separator + escapeSeperator(this.separator, state);
+                let v = t + this.separator + escapeSeparator(this.separator, state);
                 if( this.saveAttributes ) {
                     for( let a of attributes ) {
                         state = e.a ? localizeNumber(e.a[a], nf) : '';
-                        v += this.separator + escapeSeperator(this.separator, state);
+                        v += this.separator + escapeSeparator(this.separator, state);
                     }
                 }
                 data.push(v + "\r\n");
@@ -179,10 +179,10 @@ export class StatisticsCSVExporter {
                 let smin = e['min'] ? localizeNumber(e['min'], nf) : '';
                 let smax = e['max'] ? localizeNumber(e['max'], nf) : '';
 
-                state = escapeSeperator(this.separator, state);
-                smean = escapeSeperator(this.separator, smean);
-                smin = escapeSeperator(this.separator, smin);
-                smax = escapeSeperator(this.separator, smax);
+                state = escapeSeparator(this.separator, state);
+                smean = escapeSeparator(this.separator, smean);
+                smin = escapeSeparator(this.separator, smin);
+                smax = escapeSeparator(this.separator, smax);
 
                 data.push(t + this.separator + state + this.separator + smean + this.separator + smin + this.separator + smax + "\r\n");
             }
