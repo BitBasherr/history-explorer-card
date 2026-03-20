@@ -901,8 +901,10 @@ export class HistoryCardState {
     getFormattedLabelName(name, entity, unit)
     {
         let label = name;
+        const entityState = this._hass.states[entity];
+        if( entityState === undefined ) return label;
         const p = 10 ** this.pconfig.roundingPrecision;
-        const v = Math.round(this._hass.states[entity].state * p) / p;
+        const v = Math.round(entityState.state * p) / p;
         if( !isNaN(v) ) {
             label += ' (' + v + (unit ? ' ' + unit : '') + ')';
         }
@@ -3192,7 +3194,9 @@ export class HistoryCardState {
         for( let g of this.graphs ) {
             let i = 0;
             for( let e of g.entities ) {
-                const lc = this._hass.states[e.entity].last_changed;
+                const entityState = this._hass.states[e.entity];
+                if( entityState === undefined ) { i++; continue; }
+                const lc = entityState.last_changed;
                 if( this.stateMap.has(e.entity) && lc != this.stateMap.get(e.entity) ) {
                     if( this.pconfig.showCurrentValues ) {
                         let d = g.chart.data.datasets[i];
